@@ -5,34 +5,54 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private Animator anim = null;
+    private Rigidbody2D rb2d;
+
+    // “G‚Ìƒtƒ‰ƒO
     private bool Enemy_walkFlg = false;
+    private bool Enemy_attackFlg = false;
+    private bool Enemy_spellFlg = false;
+
+    // ƒfƒoƒbƒN—pƒtƒ‰ƒO
     private bool keyFlg = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && keyFlg == false)
         {
-            anim.SetTrigger("Enemy_Walk");
+            Enemy_Walk();
         }
-        //if (Input.GetKeyDown(KeyCode.P) && keyFlg == false)
-        //{
-        //    Enemy_Walk();
-        //}
     }
 
 
-    //void Enemy_Walk()
-    //{
-    //    anim.SetTrigger("Walk");
-    //    keyFlg = true;
-    //}
+    // “G‚Ì•à‚«
+    void Enemy_Walk()
+    {
+        anim.SetTrigger("Enemy_Walk");
+        keyFlg = true;
+    }
+
+    // “G‚Ì’ÊíUŒ‚
+    void Enemy_Attack()
+    {
+        anim.SetTrigger("Enemy_Attack");
+        keyFlg = true;
+    }
+
+    // “G‚Ì–‚–@UŒ‚
+    void Enemy_Spell()
+    {
+        anim.SetTrigger("Enemy_Spell");
+        keyFlg = true;
+    }
+
 
 }
