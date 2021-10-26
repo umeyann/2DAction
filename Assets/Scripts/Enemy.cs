@@ -7,10 +7,18 @@ public class Enemy : MonoBehaviour
     private Animator anim = null;
     private Rigidbody2D rb2d;
 
+    private int move_type = 0;
+    private Vector3 forward; 
+
+
     // 敵のフラグ
-    private bool Enemy_walkFlg = false;
-    private bool Enemy_attackFlg = false;
-    private bool Enemy_spellFlg = false;
+    private bool Enemy_Idle = true;
+    private bool Enemy_Walk = false;
+    private bool Enemy_Attack = false;
+    private bool Enemy_Spell = false;
+
+
+
 
     // デバック用フラグ
     private bool keyFlg = false;
@@ -26,10 +34,15 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) && keyFlg == false)
+        if(Enemy_Idle)
         {
-            Enemy_Walk();
+            move_type = Random.Range(0, 4);
         }
+        else if (Enemy_Walk)
+        {
+            true;
+        }
+
     }
 
 
@@ -37,21 +50,19 @@ public class Enemy : MonoBehaviour
     void Enemy_Walk()
     {
         anim.SetTrigger("Enemy_Walk");
-        keyFlg = true;
     }
 
     // 敵の通常攻撃
     void Enemy_Attack()
     {
         anim.SetTrigger("Enemy_Attack");
-        keyFlg = true;
     }
 
     // 敵の魔法攻撃
-    void Enemy_Spell()
+    void Enemy_Cast()
     {
-        anim.SetTrigger("Enemy_Spell");
-        keyFlg = true;
+        anim.SetTrigger("Enemy_Cast");
+
     }
 
 
