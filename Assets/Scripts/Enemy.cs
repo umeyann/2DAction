@@ -12,10 +12,10 @@ public class Enemy : MonoBehaviour
 
 
     // “G‚Ìƒtƒ‰ƒO
-    private bool Enemy_Idle = true;
-    private bool Enemy_Walk = false;
-    private bool Enemy_Attack = false;
-    private bool Enemy_Spell = false;
+    private bool enemyIdle = true;
+    private bool enemyWalk = false;
+    private bool enemyAttack = false;
+    private bool enemySpell = false;
 
 
 
@@ -34,14 +34,19 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Enemy_Idle)
+        //if(Enemy_Idle)
+        //{
+        //    move_type = Random.Range(0, 4);
+        //}
+        //else if (Enemy_Walk)
+        //{
+        //    true;
+        //}
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            move_type = Random.Range(0, 4);
+            Enemy_Walk();
         }
-        else if (Enemy_Walk)
-        {
-            true;
-        }
+
 
     }
 
