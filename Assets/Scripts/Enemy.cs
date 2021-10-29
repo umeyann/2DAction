@@ -4,71 +4,78 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private Animator anim = null;
-    private Rigidbody2D rb2d;
 
-    private int move_type = 0;
-    private Vector3 forward; 
+    public float walkSpeed;
 
+    [HideInInspector]
+    public bool mustPatrol;
+    private bool mustTurn;
 
-    // ìGÇÃÉtÉâÉO
-    private bool enemyIdle = true;
-    private bool enemyWalk = false;
-    private bool enemyAttack = false;
-    private bool enemySpell = false;
-
-
-
-
-    // ÉfÉoÉbÉNópÉtÉâÉO
-    private bool keyFlg = false;
-
+    public Animator anim = null;
+    public Rigidbody2D rb2d;
+    public Transform groundCheckPos;
+    public LayerMask groundLayer;
+    public Collider2D bodyCollider;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb2d = GetComponent<Rigidbody2D>();
+        mustPatrol = true;
         anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if(Enemy_Idle)
-        //{
-        //    move_type = Random.Range(0, 4);
-        //}
-        //else if (Enemy_Walk)
-        //{
-        //    true;
-        //}
-        if (Input.GetKeyDown(KeyCode.P))
+        if(mustPatrol)
         {
-            Enemy_Walk();
+            Patrol();
         }
-
-
     }
 
+    private void FixedUpdate()
+    {
+        if(mustPatrol)
+        {
+            mustTurn = !Physics2D.OverlapCircle(groundCheckPos.position, 0.1f, groundLayer);
+        }
+    }
 
-    // ìGÇÃï‡Ç´
-    void Enemy_Walk()
+    void Patrol()
+    {
+        anim.SetTrigger("Enemy_Walk");
+
+        //if(mustTurn || bodyCollider.IsTouchingLayers(groundLayer))
+        //{
+        //    Flip();
+        //}
+        rb2d.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb2d.velocity.y);
+    }
+
+    void Flip()
+    {
+        mustPatrol = false;
+        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+        walkSpeed *= -1;
+        mustPatrol = true;
+    }
+
+    // Animation
+    void enemyIdle()
+    {
+        anim.SetTrigger("Enemy_Idle");
+    }
+    void enemyWalk()
     {
         anim.SetTrigger("Enemy_Walk");
     }
-
-    // ìGÇÃí èÌçUåÇ
-    void Enemy_Attack()
+    void enemyAttack()
     {
         anim.SetTrigger("Enemy_Attack");
     }
-
-    // ìGÇÃñÇñ@çUåÇ
-    void Enemy_Cast()
+    void enemyCast()
     {
         anim.SetTrigger("Enemy_Cast");
-
     }
-
 
 }
